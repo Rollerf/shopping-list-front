@@ -1,18 +1,11 @@
 import "./App.css";
 import Toggle from "./components/Toggle";
-import React, { useState } from "react";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faChevronRight,
-  faChevronLeft,
-  faCircle,
-  faCheckCircle,
-  faPlus,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-//TODO: Ir metiendo aqui la parte principal de la otra lista
-//Cuidado al instalar las dependencias del otro proyecto, que me peto.
-//El añadir items ya lo puse. Ahora ir poniendo el resto poco a poco
+//TODO: Ir cambiando en Toggle la funcionalidad para que haga lo que yo quiero.
+//Actualmente funcionan como el antiguo toggle
 function App() {
   const [inputValue, setInputValue] = useState("");
 
@@ -56,7 +49,7 @@ function App() {
   return (
     <div className="app-background">
       <div className="main-container">
-      <div className="add-item-box">
+        <div className="add-item-box">
           <input
             value={inputValue}
             onChange={(event) => setInputValue(event.target.value)}
@@ -78,8 +71,6 @@ function App() {
         ))}
       </div>
     </div>
-
-
   );
 }
 
