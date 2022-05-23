@@ -7,8 +7,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./Toggle.css";
 
-const RANGE = -50;
-
 function Toggle(props: any) {
   const limitDelete = -100;
   const [{ x }, set] = useSpring(() => ({
@@ -25,21 +23,16 @@ function Toggle(props: any) {
     return x;
   };
 
-  // const backgroundStyle = {
-  //   backgroundColor: "red",
-  //   cursor: "pointer",
-  //   backgroundImage: "../images/trash-solid.svg",
-  // };
-
   const knobStyle = {
     x,
     backgroundColor: "black",
   };
 
-  const bind = useDrag(({ movement: [mx] }) => {
+  //TODO: Down is not working in chrome when I using phone screen resolution
+  const bind = useDrag(({ down, movement: [mx] }) => {
     const mxclamped = clamp(mx);
     const offs = 0;
-    const newX = offs + mxclamped;
+    const newX = down ? offs + mxclamped : 0;
 
     if (!deleted && newX < limitDelete) {
       deleted = true;
@@ -51,7 +44,6 @@ function Toggle(props: any) {
 
   return (
     <div className="background">
-      {/* <img src={trash} alt="trash" /> */}
       <animated.div
         {...bind()}
         style={knobStyle}
@@ -63,34 +55,21 @@ function Toggle(props: any) {
         <div className="item-container">
           <div
             className="item-name"
-            // onClick={() => toggleComplete(index)}
           >
-            {/* Linea de prueba para que salga el nombre */}
             <span>{props.item.itemName}</span>
-            {/* {item.isSelected ? (
-                    <>
-                      <FontAwesomeIcon icon={faCheckCircle} />
-                      <span className="completed">{item.itemName}</span>
-                    </>
-                  ) : (
-                    <>
-                      <FontAwesomeIcon icon={faCircle} />
-                      <span>{item.itemName}</span>
-                    </>
-                  )} */}
           </div>
           <div className="quantity">
             <button>
               <FontAwesomeIcon
                 icon={faChevronLeft}
-                // onClick={() => handleQuantityDecrease(index)}
+                onClick={() => props.handleQuantityDecrease(props.item)}
               />
             </button>
-            {/* <span> {item.quantity} </span> */}
+            <span> {props.item.quantity} </span>
             <button>
               <FontAwesomeIcon
                 icon={faChevronRight}
-                // onClick={() => handleQuantityIncrease(index)}
+                onClick={() => props.handleQuantityIncrease(props.item)}
               />
             </button>
           </div>

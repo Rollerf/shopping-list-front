@@ -26,7 +26,6 @@ function App() {
 
       setItems(newItems);
       setInputValue("");
-      // calculateTotal();
     }
   };
 
@@ -44,6 +43,32 @@ function App() {
     });
 
     setItems(filtered);
+  };
+
+  const handleQuantityDecrease = (item: any) => {
+    let index = items.findIndex((value) => {
+      return value.itemName === item.itemName;
+    });
+
+    var newItems = [...items];
+
+    if (newItems[index].quantity > 0) {
+      newItems[index].quantity--;
+    }
+
+    setItems(newItems);
+  };
+
+  const handleQuantityIncrease = (item: any) => {
+    let index = items.findIndex((value) => {
+      return value.itemName === item.itemName;
+    });
+
+    var newItems = [...items];
+
+    newItems[index].quantity++;
+
+    setItems(newItems);
   };
 
   return (
@@ -66,7 +91,8 @@ function App() {
             key={item.itemName}
             item={item}
             toggleDelete={toggleDelete}
-            index={index}
+            handleQuantityDecrease={handleQuantityDecrease}
+            handleQuantityIncrease={handleQuantityIncrease}
           ></Toggle>
         ))}
       </div>
