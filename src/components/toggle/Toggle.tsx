@@ -4,12 +4,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronRight,
   faChevronLeft,
-  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+import "./Toggle.css";
 
 const RANGE = -50;
 
 function Toggle(props: any) {
+  const limitDelete = -100;
   const [{ x }, set] = useSpring(() => ({
     x: 0,
   }));
@@ -24,22 +25,23 @@ function Toggle(props: any) {
     return x;
   };
 
-  const backgroundStyle = {
-    backgroundColor: "white",
-    cursor: "pointer",
-  };
+  // const backgroundStyle = {
+  //   backgroundColor: "red",
+  //   cursor: "pointer",
+  //   backgroundImage: "../images/trash-solid.svg",
+  // };
 
   const knobStyle = {
     x,
     backgroundColor: "black",
   };
 
-  const bind = useDrag(({movement: [mx] }) => {
+  const bind = useDrag(({ movement: [mx] }) => {
     const mxclamped = clamp(mx);
     const offs = 0;
     const newX = offs + mxclamped;
 
-    if (!deleted && newX < -100) {
+    if (!deleted && newX < limitDelete) {
       deleted = true;
       props.toggleDelete(props.item);
     }
@@ -48,7 +50,8 @@ function Toggle(props: any) {
   });
 
   return (
-    <div style={backgroundStyle}>
+    <div className="background">
+      {/* <img src={trash} alt="trash" /> */}
       <animated.div
         {...bind()}
         style={knobStyle}
