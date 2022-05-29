@@ -25,7 +25,7 @@ function Toggle(props: any) {
 
   const knobStyle = {
     x,
-    backgroundColor: "black",
+    backgroundColor: "#5b73ec",
   };
 
   //TODO: Down is not working in chrome when I using phone screen resolution

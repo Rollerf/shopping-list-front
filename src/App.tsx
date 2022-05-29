@@ -4,12 +4,10 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-//TODO: Ir cambiando en Toggle la funcionalidad para que haga lo que yo quiero.
-//Actualmente funcionan como el antiguo toggle
+//TODO: Call api endpoints
 function App() {
   const [inputValue, setInputValue] = useState("");
 
-  //TODO:refactorizar este codigo. Quiza hay cosas que no funcionan como quiero, etc
   const handleAddButtonClick = () => {
     if (
       inputValue.trim() !== "" &&
