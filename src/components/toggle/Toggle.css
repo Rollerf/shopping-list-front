@@ -1,0 +1,7 @@
+.background{
+    background-color: red;
+    cursor: pointer;
+    background-image: url("../../images/trash-solid.svg");
+    background-repeat: no-repeat;
+    background-position: right;
+}
