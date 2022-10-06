@@ -3,23 +3,22 @@ import Toggle from "./components/toggle/Toggle";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import React from 'react';
+import itemService from "./services/ItemService";
+import Item from "./model/Item";
 
-//TODO: Call api endpoints
 function App() {
   const [inputValue, setInputValue] = useState("");
+  const [items, setItems] = useState(itemService.getItems());
 
   const handleAddButtonClick = () => {
     if (
       inputValue.trim() !== "" &&
-      items.filter((e) => e.itemName.toLowerCase() === inputValue.toLowerCase())
+      items.filter((e) => e.name.toLowerCase() === inputValue.toLowerCase())
         .length < 1
     ) {
-      const newItem = {
-        itemName: inputValue.trim(),
-        quantity: 1,
-        isSelected: false,
-      };
 
+      const newItem = new Item("", inputValue.trim(), 1);
       const newItems = [...items, newItem];
 
       setItems(newItems);
@@ -27,25 +26,19 @@ function App() {
     }
   };
 
-  const [items, setItems] = useState([
-    { itemName: "item 1", quantity: 1, isSelected: false },
-    { itemName: "item 2", quantity: 3, isSelected: true },
-    { itemName: "item 3", quantity: 2, isSelected: false },
-  ]);
-
-  const toggleDelete = (item: any) => {
-    console.log("Item to delete: " + item.itemName);
+  const toggleDelete = (item: Item) => {
+    console.log("Item to delete: " + item.name);
 
     var filtered = items.filter((value) => {
-      return value.itemName !== item.itemName;
+      return value.name !== item.name;
     });
 
     setItems(filtered);
   };
 
-  const handleQuantityDecrease = (item: any) => {
+  const handleQuantityDecrease = (item: Item) => {
     let index = items.findIndex((value) => {
-      return value.itemName === item.itemName;
+      return value.name === item.name;
     });
 
     var newItems = [...items];
@@ -57,9 +50,9 @@ function App() {
     setItems(newItems);
   };
 
-  const handleQuantityIncrease = (item: any) => {
+  const handleQuantityIncrease = (item: Item) => {
     let index = items.findIndex((value) => {
-      return value.itemName === item.itemName;
+      return value.name === item.name;
     });
 
     var newItems = [...items];
@@ -84,9 +77,8 @@ function App() {
             onClick={() => handleAddButtonClick()}
           />
         </div>
-        {items.map((item, index) => (
+        {items.map((item) => (
           <Toggle
-            key={item.itemName}
             item={item}
             toggleDelete={toggleDelete}
             handleQuantityDecrease={handleQuantityDecrease}
