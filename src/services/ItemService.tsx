@@ -1,16 +1,11 @@
 import React from 'react';
-import axios from 'axios';
+import axios, {AxiosError} from 'axios';
 import { isTemplateExpression, textChangeRangeIsUnchanged } from 'typescript';
 import Item from "../model/Item";
 
 class ItemService{
-  getItems(): Item[]  {
-    axios.get('').then((response) => {
-        console.log(response.data);
-
-        return response.data;
-      });
-      return [];
+  async getItems() {
+      return await axios.get('http://localhost:3001/items');
   }
 
   saveItem(item :any) {

@@ -1,15 +1,26 @@
 import "./App.css";
 import Toggle from "./components/toggle/Toggle";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import React from 'react';
 import itemService from "./services/ItemService";
 import Item from "./model/Item";
+import ItemService from "./services/ItemService";
 
 function App() {
   const [inputValue, setInputValue] = useState("");
-  const [items, setItems] = useState(itemService.getItems());
+  let items:Item[] = [];
+  const [itemsState, setItemsState] = useState(items);
+
+  useEffect(() => {
+    itemService.getItems().then(response => {
+      items = response.data;
+      setItemsState(items);
+      console.log(items.length);
+    }
+      ).catch(err => console.log("Error obteniendo la data: " + err));
+  },[]);
 
   const handleAddButtonClick = () => {
     if (
@@ -21,7 +32,7 @@ function App() {
       const newItem = new Item("", inputValue.trim(), 1);
       const newItems = [...items, newItem];
 
-      setItems(newItems);
+      setItemsState(newItems);
       setInputValue("");
     }
   };
@@ -33,7 +44,7 @@ function App() {
       return value.name !== item.name;
     });
 
-    setItems(filtered);
+    setItemsState(filtered);
   };
 
   const handleQuantityDecrease = (item: Item) => {
@@ -47,7 +58,7 @@ function App() {
       newItems[index].quantity--;
     }
 
-    setItems(newItems);
+    setItemsState(newItems);
   };
 
   const handleQuantityIncrease = (item: Item) => {
@@ -59,7 +70,7 @@ function App() {
 
     newItems[index].quantity++;
 
-    setItems(newItems);
+    setItemsState(newItems);
   };
 
   return (
@@ -77,8 +88,9 @@ function App() {
             onClick={() => handleAddButtonClick()}
           />
         </div>
-        {items.map((item) => (
+        {itemsState.map((item) => (
           <Toggle
+            key={item.id}
             item={item}
             toggleDelete={toggleDelete}
             handleQuantityDecrease={handleQuantityDecrease}
