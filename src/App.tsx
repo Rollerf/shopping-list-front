@@ -20,57 +20,63 @@ function App() {
       console.log(items.length);
     }
       ).catch(err => console.log("Error obteniendo la data: " + err));
-  },[]);
+  }, []);
 
   const handleAddButtonClick = () => {
     if (
       inputValue.trim() !== "" &&
-      items.filter((e) => e.name.toLowerCase() === inputValue.toLowerCase())
+      itemsState.filter((e) => e.name.toLowerCase() === inputValue.toLowerCase())
         .length < 1
     ) {
-
-      const newItem = new Item("", inputValue.trim(), 1);
-      const newItems = [...items, newItem];
-
-      setItemsState(newItems);
+      let newItem = new Item("", inputValue.trim(), 1);
+      
       setInputValue("");
+      itemService.createItem(newItem).then(response => {
+        newItem = response.data;
+        let newItems = [...itemsState, newItem];
+        setItemsState(newItems);
+      }
+        ).catch(err => console.log("Error obteniendo la data: " + err));
     }
-  };
+    }
 
   const toggleDelete = (item: Item) => {
     console.log("Item to delete: " + item.name);
 
-    var filtered = items.filter((value) => {
+    let filtered = itemsState.filter((value) => {
       return value.name !== item.name;
     });
 
     setItemsState(filtered);
+    itemService.deleteItem(item.id);
   };
 
   const handleQuantityDecrease = (item: Item) => {
-    let index = items.findIndex((value) => {
+    let index = itemsState.findIndex((value) => {
       return value.name === item.name;
     });
 
-    var newItems = [...items];
+    let newItems = [...itemsState];
 
     if (newItems[index].quantity > 0) {
       newItems[index].quantity--;
     }
 
     setItemsState(newItems);
+    itemService.modifyItem(newItems[index]);
   };
 
   const handleQuantityIncrease = (item: Item) => {
-    let index = items.findIndex((value) => {
+    let index = itemsState.findIndex((value) => {
       return value.name === item.name;
     });
 
-    var newItems = [...items];
+    var newItems = [...itemsState];
 
     newItems[index].quantity++;
 
     setItemsState(newItems);
+    itemService.modifyItem(newItems[index]);
   };
 
   return (
