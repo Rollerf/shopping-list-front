@@ -1,12 +1,13 @@
 import React from 'react';
-import axios, {AxiosError} from 'axios';
-import { isTemplateExpression, textChangeRangeIsUnchanged } from 'typescript';
+import axios from 'axios';
 import Item from "../model/Item";
+import env from "react-dotenv";
 
-let ROUTE = 'http://localhost:3001/items';
+let ROUTE = env.ENDPOINT + '/items';
 
 class ItemService{
   async getItems() {
+    console.log(process.env.ENDPOINT);
       return await axios.get(ROUTE);
   }
 
