@@ -1,16 +1,12 @@
 class Item {
-    id: string;
     name: string;
     quantity: number;
-    isSelected: boolean;
-    isDeleted: boolean;
+    deleted: boolean;
 
-    constructor(id = "0", name = "", quantity = 0, isSelected = false, isDeleted = false){
-        this.id = id;
+    constructor(name = "", quantity = 1, deleted = false){
         this.name = name;
         this.quantity = quantity;
-        this.isSelected = isSelected;
-        this.isDeleted = isDeleted;
+        this.deleted = deleted;
     }
 }
 

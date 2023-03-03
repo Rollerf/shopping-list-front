@@ -22,7 +22,7 @@ function Toggle(props: ToggleProps) {
     x: 0,
   }));
 
-  var deleted = false;
+  let deleted = false;
 
   const clamp = (x: any) => {
     if (x > 0) {

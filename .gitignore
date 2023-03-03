@@ -24,3 +24,6 @@ yarn-error.log*
 listItemsExample.json
 public/env.js
 .env
+.env.develop
+.env.production
+.env-cmdrc.json
