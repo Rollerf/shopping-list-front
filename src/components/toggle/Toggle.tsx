@@ -6,14 +6,23 @@ import {
   faChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import "./Toggle.css";
+import React from 'react';
+import Item from "../../model/Item";
 
-function Toggle(props: any) {
+interface ToggleProps{
+  item: Item;
+  toggleDelete: (item: Item) => void;
+  handleQuantityDecrease: (item: Item) => void;
+  handleQuantityIncrease: (item: Item) => void;
+}
+
+function Toggle(props: ToggleProps) {
   const limitDelete = -100;
   const [{ x }, set] = useSpring(() => ({
     x: 0,
   }));
 
-  var deleted = false;
+  let deleted = false;
 
   const clamp = (x: any) => {
     if (x > 0) {
@@ -56,7 +65,7 @@ function Toggle(props: any) {
           <div
             className="item-name"
           >
-            <span>{props.item.itemName}</span>
+            <span>{props.item.name}</span>
           </div>
           <div className="quantity">
             <button>
