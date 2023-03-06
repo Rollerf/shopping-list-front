@@ -6,7 +6,7 @@ import React from 'react';
 import ItemService from "../../services/ItemService";
 import Item from "../../model/Item";
 import './ShoppingList.css';
-import { saveToken } from "../../services/AuthHeader";
+import { removeToken, saveToken } from "../../services/AuthHeader";
 
 function ShoppingList() {
   const [inputValue, setInputValue] = useState("");
@@ -29,6 +29,7 @@ function ShoppingList() {
     }
     ).catch(err => {
       console.log("Error obteniendo la data: " + err);
+      removeToken();
       window.location.replace(congnitoLoginUrl);
     });
   }, []);
@@ -65,8 +66,6 @@ function ShoppingList() {
   }
 
   const toggleDelete = (item: Item) => {
-    console.log("Item to delete: " + item.name);
-
     let filtered = itemsState.filter((value) => {
       return value.name !== item.name;
     });

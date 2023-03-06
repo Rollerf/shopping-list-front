@@ -27,3 +27,4 @@ public/env.js
 .env.develop
 .env.production
 .env-cmdrc.json
+.vscode/launch.json
