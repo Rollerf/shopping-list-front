@@ -46,6 +46,7 @@ function ShoppingList() {
     newItem = itemsState.filter((e) => e.name.toLowerCase() === inputName)[0];
 
     if (inputName !== "" && newItem === undefined) {
+      console.log("Create item: " + inputName);
       newItem = new Item(inputName);
       ItemService.createItem(newItem).then(() => {
         addItem(itemsState, newItem, setItemsState);
@@ -56,6 +57,7 @@ function ShoppingList() {
     }
 
     if (newItem.deleted) {
+      console.log("Modify item: " + inputName);
       let newItems = itemsState.filter((e) => e.name.toLowerCase() !== inputName);
       newItem.deleted = false;
       ItemService.modifyItem(newItem).then(() => {
@@ -66,11 +68,15 @@ function ShoppingList() {
   }
 
   const toggleDelete = (item: Item) => {
-    let filtered = itemsState.filter((value) => {
-      return value.name !== item.name;
+    let updatedList: Item[] = itemsState.map((value) => {
+      if (value.name === item.name) {
+        value.deleted = !value.deleted;
+      }
+
+      return value;
     });
 
-    setItemsState(filtered);
+    setItemsState(updatedList);
     ItemService.deleteItem(item);
   };
 
@@ -144,6 +150,6 @@ function addItem(itemsState: Item[], newItem: Item, setItemsState: React.Dispatc
     }
     return 0;
   });
-  
+
   setItemsState(newItems);
 }
